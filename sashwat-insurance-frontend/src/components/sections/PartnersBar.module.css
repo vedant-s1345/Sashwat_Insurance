@@ -1,0 +1,14 @@
+.section { padding: 40px 0; background: var(--white); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+.label { text-align: center; font-size: 11.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 22px; }
+.partners { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.partner {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy-60);
+  padding: 8px 18px;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  transition: all var(--dur-fast) var(--ease);
+}
+.partner:hover { border-color: var(--gold); color: var(--navy); background: var(--gold-pale); }

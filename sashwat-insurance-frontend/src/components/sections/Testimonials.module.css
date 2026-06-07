@@ -1,0 +1,68 @@
+.section { padding: var(--section-v) 0; background: var(--white); }
+.header { text-align: center; margin-bottom: 56px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 48px;
+}
+
+.card {
+  background: var(--cream);
+  border: 1px solid var(--border-light);
+  border-radius: var(--r-lg);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: box-shadow var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+}
+.card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+
+.stars { font-size: 15px; color: var(--gold); }
+
+.text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  flex: 1;
+  font-style: italic;
+}
+
+.meta { display: flex; align-items: center; gap: 12px; margin-top: auto; }
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-60) 100%);
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.name { font-size: 14px; font-weight: 600; color: var(--navy); }
+.sub  { font-size: 12px; color: var(--text-muted); }
+
+/* Aggregate */
+.aggregate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 32px 40px;
+  background: var(--navy);
+  border-radius: var(--r-xl);
+  flex-wrap: wrap;
+}
+.aggItem { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.aggVal { font-family: var(--font-display); font-size: 36px; font-weight: 700; color: var(--gold-light); letter-spacing: -.02em; }
+.aggStars { font-size: 16px; color: var(--gold); }
+.aggLabel { font-size: 12px; color: rgba(255,255,255,.45); text-align: center; }
+.aggDivider { width: 1px; height: 56px; background: rgba(255,255,255,.1); }
+
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } .aggregate { gap: 24px; } .aggDivider { display: none; } }
