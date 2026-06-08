@@ -96,12 +96,7 @@ export default function HeroSection() {
             <p className={styles.cardNote}>🔒 Your data is encrypted and never shared.</p>
           </div>
 
-          {/* Floating badge */}
-          <div className={styles.floatBadge}>
-            <div className={styles.floatStar}>★★★★★</div>
-            <div className={styles.floatText}>4.8 / 5 rating</div>
-            <div className={styles.floatCount}>from 12,000+ reviews</div>
-          </div>
+          
         </div>
       </div>
 
