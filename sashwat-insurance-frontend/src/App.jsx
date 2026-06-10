@@ -6,6 +6,7 @@ import Calculator from './pages/Calculator.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import Careers from './pages/Careers.jsx'
 import NotFound from './pages/NotFound.jsx'
 import { useAuth } from './context/AuthContext.jsx'
 
@@ -19,14 +20,13 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="products" element={<Products />} />
+        <Route path="products"   element={<Products />} />
         <Route path="calculator" element={<Calculator />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="dashboard" element={
-          <PrivateRoute><Dashboard /></PrivateRoute>
-        } />
-        <Route path="*" element={<NotFound />} />
+        <Route path="careers"    element={<Careers />} />
+        <Route path="login"      element={<Login />} />
+        <Route path="register"   element={<Register />} />
+        <Route path="dashboard"  element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+        <Route path="*"          element={<NotFound />} />
       </Route>
     </Routes>
   )

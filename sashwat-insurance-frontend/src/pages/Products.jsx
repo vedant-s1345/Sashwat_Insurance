@@ -7,11 +7,18 @@ export default function Products() {
     <>
       <div className={styles.hero}>
         <div className="container">
-          <span className="section-tag">Our Plans</span>
-          <h1 className={styles.heading}>All Insurance Plans</h1>
+          <span className="section-tag" style={{ color: 'rgba(255,255,255,.8)', background: 'rgba(255,255,255,.1)', borderColor: 'rgba(255,255,255,.2)' }}>
+            Our Services
+          </span>
+          <h1 className={styles.heading}>Life, Health & General Insurance</h1>
           <p className={styles.sub}>
-            Six carefully curated life insurance plans covering every life stage — from pure term protection to guaranteed pension annuities.
+            Partnered with 8 of India's top insurers — TATA AIA, ICICI Lombard, Star Health, Go Digit and more. Expert advice, zero pressure, best prices.
           </p>
+          <div className={styles.partnerStrip}>
+            {['TATA AIA', 'TATA AIG', 'ICICI Lombard', 'Star Health', 'Care Health', 'Go Digit', 'Royal Sundaram', 'Niva Bupa'].map(p => (
+              <span key={p} className={styles.partnerChip}>{p}</span>
+            ))}
+          </div>
         </div>
       </div>
       <ProductsSection showAll />

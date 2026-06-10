@@ -1,0 +1,57 @@
+.section { padding: var(--section-v) 0; background: var(--white); }
+.header { text-align: center; margin-bottom: 52px; }
+
+.perksGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 60px; }
+.perk { display: flex; align-items: flex-start; gap: 14px; padding: 20px; background: var(--gray-50); border: 1px solid var(--border-light); border-radius: var(--r-lg); transition: all var(--dur-base) var(--ease); }
+.perk:hover { border-color: rgba(155,28,58,.2); background: var(--crimson-pale); transform: translateY(-2px); }
+.perkIcon { font-size: 26px; flex-shrink: 0; }
+.perkTitle { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+.perkDesc  { font-size: 12.5px; color: var(--text-secondary); line-height: 1.55; }
+
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+
+/* Roles */
+.rolesHead { font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 20px; }
+.roles { display: flex; flex-direction: column; gap: 14px; }
+.roleCard { padding: 20px 22px; background: var(--gray-50); border: 1.5px solid var(--border); border-radius: var(--r-lg); transition: all var(--dur-base) var(--ease); }
+.roleCard:hover { border-color: var(--navy); background: var(--blue-50); }
+.roleTop { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.roleTitle { font-size: 15px; font-weight: 700; color: var(--navy); }
+.roleType  { font-size: 10.5px; font-weight: 700; color: var(--crimson); background: var(--crimson-pale); border: 1px solid rgba(155,28,58,.2); padding: 3px 10px; border-radius: var(--r-full); }
+.roleDesc  { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+/* Form */
+.formWrap {}
+.formCard { background: var(--navy); border-radius: var(--r-xl); padding: 36px; }
+.formHead { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+.formSub  { font-size: 13.5px; color: rgba(255,255,255,.5); margin-bottom: 24px; }
+
+.formCard .field label { color: rgba(255,255,255,.6); }
+.formCard .field input,
+.formCard .field select,
+.formCard .field textarea {
+  background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.15); color: var(--white);
+}
+.formCard .field input:focus,
+.formCard .field select:focus,
+.formCard .field textarea:focus {
+  border-color: var(--crimson); box-shadow: 0 0 0 3px rgba(155,28,58,.2);
+}
+.formCard .field input::placeholder { color: rgba(255,255,255,.3); }
+.formCard .field select option { background: var(--navy); }
+
+.error { font-size: 13px; color: #fca5a5; background: rgba(220,38,38,.15); border: 1px solid rgba(220,38,38,.3); border-radius: var(--r-sm); padding: 10px 14px; margin-bottom: 14px; }
+.submitBtn { width: 100%; padding: 14px !important; font-size: 15px !important; }
+
+.successState { text-align: center; padding: 32px 0; }
+.successIcon  { font-size: 56px; margin-bottom: 16px; }
+.successTitle { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.successMsg   { font-size: 14px; color: rgba(255,255,255,.6); line-height: 1.6; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .perksGrid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .perksGrid { grid-template-columns: 1fr; }
+}

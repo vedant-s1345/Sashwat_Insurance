@@ -1,5 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0a1628"/>
-  <path d="M32 10 L50 18 L50 36 Q50 50 32 58 Q14 50 14 36 L14 18 Z" fill="none" stroke="#c9a84c" stroke-width="2.5" stroke-linejoin="round"/>
-  <path d="M23 33 L29 39 L41 25" stroke="#c9a84c" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect width="64" height="64" rx="14" fill="#2e3f6f"/>
+  <!-- Umbrella -->
+  <ellipse cx="32" cy="26" rx="18" ry="9" fill="#9b1c3a"/>
+  <path d="M32 26 Q22 30 20 42" stroke="#9b1c3a" stroke-width="2" fill="none"/>
+  <path d="M32 26 Q32 36 32 44" stroke="#9b1c3a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M32 26 Q42 30 44 42" stroke="#9b1c3a" stroke-width="2" fill="none"/>
+  <circle cx="32" cy="20" r="3" fill="#9b1c3a"/>
+  <!-- S letters suggestion -->
+  <text x="32" y="58" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="serif">SIS</text>
 </svg>

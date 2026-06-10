@@ -1,51 +1,6 @@
-.wrapper {
-  background: var(--white);
-  border-bottom: 1px solid var(--border-light);
-  padding: 32px 0;
-}
-
-.certs {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-.cert {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 16px;
-  background: var(--cream);
-  border: 1px solid var(--border-light);
-  border-radius: var(--r-full);
-}
-.icon { font-size: 15px; }
-.label { font-size: 12.5px; font-weight: 500; color: var(--text-secondary); white-space: nowrap; }
-
-.divider { height: 1px; background: var(--border-light); margin: 20px 0; }
-
-.partnerRow {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.partnerLabel {
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.partners { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-.partner {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--navy-60);
-  padding: 4px 12px;
-  background: var(--cream);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-}
+.wrapper { background: var(--white); border-bottom: 1px solid var(--border-light); padding: 24px 0; }
+.certs { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.cert { display: flex; align-items: center; gap: 7px; padding: 8px 18px; background: var(--gray-50); border: 1px solid var(--border); border-radius: var(--r-full); transition: all var(--dur-fast) var(--ease); }
+.cert:hover { background: var(--crimson-pale); border-color: rgba(155,28,58,.25); }
+.icon  { font-size: 14px; }
+.label { font-size: 12.5px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }

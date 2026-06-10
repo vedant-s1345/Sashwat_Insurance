@@ -7,10 +7,12 @@ export default function Calculator() {
     <>
       <div className={styles.hero}>
         <div className="container">
-          <span className="section-tag">Premium Calculator</span>
+          <span className="section-tag" style={{ color: 'rgba(255,255,255,.8)', background: 'rgba(255,255,255,.1)', borderColor: 'rgba(255,255,255,.2)' }}>
+            Premium Calculator
+          </span>
           <h1 className={styles.heading}>Calculate your premium instantly</h1>
           <p className={styles.sub}>
-            Real actuarial pricing: age, gender, health status, smoking habit and policy term all factor in. No gimmicks, no lowball estimates.
+            Get an accurate premium estimate using real actuarial factors — age, gender, health, smoking status and policy term. No guesswork, no hidden charges.
           </p>
         </div>
       </div>

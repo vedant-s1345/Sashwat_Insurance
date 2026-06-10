@@ -4,14 +4,15 @@ import { useAuth } from '../../context/AuthContext.jsx'
 import styles from './Navbar.module.css'
 
 const NAV = [
-  { label: 'Products', to: '/products' },
-  { label: 'Calculator', to: '/calculator' },
+  { label: 'Insurance Plans', to: '/products' },
+  { label: 'Calculator',      to: '/calculator' },
+  { label: 'Careers',         to: '/careers' },
 ]
 
 export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuth()
   const navigate = useNavigate()
-  const [scrolled, setScrolled]   = useState(false)
+  const [scrolled,   setScrolled] = useState(false)
   const [mobileOpen, setMobile]   = useState(false)
 
   useEffect(() => {
@@ -27,21 +28,16 @@ export default function Navbar() {
       <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
         <div className={`container ${styles.inner}`}>
 
-          {/* ── Logo ── */}
+          {/* Logo */}
           <Link to="/" className={styles.logo}>
-            <span className={styles.logoMark}>
-              <svg viewBox="0 0 36 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 2 L34 9 L34 24 Q34 36 18 42 Q2 36 2 24 L2 9 Z" fill="#0a1628" stroke="#c9a84c" strokeWidth="1.5"/>
-                <path d="M11 21 L16 26 L26 14" stroke="#c9a84c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
+            <img src="/logo.png" alt="Shashwat Insurance Services" className={styles.logoImg} />
             <span className={styles.logoText}>
-              <span className={styles.logoName}>Sashwat</span>
-              <span className={styles.logoSub}>Insurance</span>
+              <span className={styles.logoName}>Shashwat</span>
+              <span className={styles.logoSub}>Insurance Services</span>
             </span>
           </Link>
 
-          {/* ── Desktop Nav ── */}
+          {/* Desktop Nav */}
           <div className={styles.links}>
             {NAV.map(n => (
               <NavLink
@@ -54,7 +50,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* ── Auth Actions ── */}
+          {/* Auth Actions */}
           <div className={styles.actions}>
             {isAuthenticated ? (
               <>
@@ -65,13 +61,13 @@ export default function Navbar() {
             ) : (
               <>
                 <Link to="/login"    className={`btn btn-outline ${styles.loginBtn}`}>Login</Link>
-                <Link to="/register" className={`btn btn-gold  ${styles.registerBtn}`}>Get Started</Link>
+                <Link to="/register" className={`btn btn-gold   ${styles.registerBtn}`}>Get a Quote</Link>
               </>
             )}
           </div>
 
-          {/* ── Hamburger ── */}
-          <button className={styles.hamburger} onClick={() => setMobile(v => !v)} aria-label="Menu">
+          {/* Hamburger */}
+          <button className={styles.hamburger} onClick={() => setMobile(v => !v)} aria-label="Toggle menu">
             <span className={`${styles.bar} ${mobileOpen ? styles.open1 : ''}`} />
             <span className={`${styles.bar} ${mobileOpen ? styles.open2 : ''}`} />
             <span className={`${styles.bar} ${mobileOpen ? styles.open3 : ''}`} />
@@ -79,10 +75,14 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* ── Mobile Drawer ── */}
+      {/* Mobile Drawer */}
       {mobileOpen && (
         <div className={styles.drawer} onClick={() => setMobile(false)}>
           <div className={styles.drawerInner} onClick={e => e.stopPropagation()}>
+            <div className={styles.drawerLogo}>
+              <img src="/logo.png" alt="SIS" className={styles.drawerLogoImg} />
+              <span className={styles.drawerLogoName}>Shashwat Insurance</span>
+            </div>
             {NAV.map(n => (
               <Link key={n.to} to={n.to} className={styles.drawerLink} onClick={() => setMobile(false)}>
                 {n.label}
@@ -97,7 +97,7 @@ export default function Navbar() {
               ) : (
                 <>
                   <Link to="/login"    className="btn btn-outline" onClick={() => setMobile(false)}>Login</Link>
-                  <Link to="/register" className="btn btn-gold"    onClick={() => setMobile(false)}>Get Started</Link>
+                  <Link to="/register" className="btn btn-gold"    onClick={() => setMobile(false)}>Get a Quote</Link>
                 </>
               )}
             </div>

@@ -2,72 +2,52 @@ import { useState } from 'react'
 import { leadsApi } from '../../api/client.js'
 import styles from './QuoteModal.module.css'
 
-const STEPS = ['Details', 'Coverage', 'Confirm']
-
 const LEAD_TYPES = [
-  { val: 'QUOTE_REQUEST',   label: 'Get a Quote' },
-  { val: 'CALLBACK_REQUEST',label: 'Request Callback' },
-  { val: 'CONTACT_FORM',   label: 'General Inquiry' },
-]
-const GENDERS = [
-  { val: 'MALE',   label: 'Male' },
-  { val: 'FEMALE', label: 'Female' },
-  { val: 'OTHER',  label: 'Other' },
-]
-const HEALTH = [
-  { val: 'EXCELLENT', label: 'Excellent' },
-  { val: 'GOOD',      label: 'Good' },
-  { val: 'AVERAGE',   label: 'Average' },
-  { val: 'POOR',      label: 'Poor' },
+  { val: 'QUOTE_REQUEST',    label: 'Get a Quote' },
+  { val: 'CALLBACK_REQUEST', label: 'Request Callback' },
+  { val: 'CONTACT_FORM',    label: 'General Inquiry' },
 ]
 
-function formatCoverage(v) {
-  const n = Number(v)
-  if (n >= 10_000_000) return `₹${n/10_000_000} Cr`
-  if (n >= 100_000) return `₹${n/100_000} L`
-  return `₹${n.toLocaleString('en-IN')}`
-}
+const INSURANCE_TYPES = [
+  { val: 'Life Insurance',    label: '🛡️ Life Insurance' },
+  { val: 'Health Insurance',  label: '🏥 Health Insurance' },
+  { val: 'General Insurance', label: '🚗 General Insurance' },
+]
 
 export default function QuoteModal({ onClose, product }) {
   const [step,    setStep]    = useState(0)
   const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(null)
+  const [success, setSuccess] = useState(false)
   const [error,   setError]   = useState('')
 
   const [form, setForm] = useState({
-    fullName:               '',
-    email:                  '',
-    phone:                  '',
-    leadType:               'QUOTE_REQUEST',
-    productId:              product?.id || '',
-    age:                    '',
-    gender:                 'MALE',
-    policyTermYears:        '20',
-    coverageAmountRequested:'5000000',
-    healthStatus:           'GOOD',
-    message:                '',
+    fullName:    '',
+    email:       '',
+    phone:       '',
+    leadType:    'QUOTE_REQUEST',
+    insuranceType: product?.title || '',
+    age:         '',
+    message:     '',
   })
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
+  const validStep0 = form.fullName.trim().length >= 2
+    && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+    && /^[6-9]\d{9}$/.test(form.phone)
+
   const handleSubmit = async () => {
     setLoading(true); setError('')
     try {
-      const payload = {
-        fullName:   form.fullName.trim(),
-        email:      form.email.trim(),
-        phone:      form.phone.trim(),
-        leadType:   form.leadType,
-        ...(form.productId           && { productId: Number(form.productId) }),
-        ...(form.age                 && { age: Number(form.age) }),
-        gender:     form.gender,
-        ...(form.policyTermYears     && { policyTermYears: Number(form.policyTermYears) }),
-        ...(form.coverageAmountRequested && { coverageAmountRequested: Number(form.coverageAmountRequested) }),
-        healthStatus: form.healthStatus,
-        ...(form.message             && { message: form.message }),
-      }
-      const res = await leadsApi.create(payload)
-      setSuccess(res.data.data)
+      await leadsApi.create({
+        fullName: form.fullName.trim(),
+        email:    form.email.trim(),
+        phone:    form.phone.trim(),
+        leadType: form.leadType,
+        age:      form.age ? Number(form.age) : undefined,
+        message:  `Insurance Type: ${form.insuranceType || 'Not specified'}. ${form.message}`.trim(),
+      })
+      setSuccess(true)
     } catch (e) {
       setError(e.response?.data?.message || 'Submission failed. Please try again.')
     } finally {
@@ -75,50 +55,58 @@ export default function QuoteModal({ onClose, product }) {
     }
   }
 
-  const validStep0 = form.fullName.trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) && /^[6-9]\d{9}$/.test(form.phone)
-  const validStep1 = form.age && Number(form.age) >= 18 && Number(form.age) <= 70
-
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={e => e.stopPropagation()}>
 
         {/* Header */}
         <div className={styles.header}>
-          <div>
-            <h2 className={styles.title}>
-              {success ? 'Quote Requested! 🎉' : product ? `Quote for ${product.name}` : 'Get Your Free Quote'}
-            </h2>
-            {!success && <p className={styles.subtitle}>Our advisors will contact you within 24 hours.</p>}
+          <div className={styles.headerLeft}>
+            <img src="/logo.png" alt="SIS" className={styles.headerLogo} />
+            <div>
+              <h2 className={styles.title}>
+                {success ? 'Request Submitted! 🎉' : product ? `${product.title} Quote` : 'Get Free Consultation'}
+              </h2>
+              {!success && <p className={styles.subtitle}>Shashwat Insurance Services</p>}
+            </div>
           </div>
           <button className={styles.close} onClick={onClose} aria-label="Close">✕</button>
         </div>
 
-        {/* Success */}
         {success ? (
+          /* ── Success ── */
           <div className={styles.success}>
-            <div className={styles.successIcon}>✅</div>
+            <div className={styles.successCircle}>✓</div>
             <p className={styles.successMsg}>Thank you, <strong>{form.fullName.split(' ')[0]}</strong>!</p>
-            <p className={styles.successSub}>Our team will call you within 24 hours. Reference: <strong>{success.referenceId}</strong></p>
+            <p className={styles.successSub}>
+              Our expert advisor will call you within 24 hours to discuss the best insurance plan for your needs.
+            </p>
+            <div className={styles.successPartners}>
+              <span className={styles.successPartnersLabel}>We'll compare plans from:</span>
+              {['TATA AIA', 'Star Health', 'ICICI Lombard', 'Go Digit'].map(p => (
+                <span key={p} className={styles.successPartnerChip}>{p}</span>
+              ))}
+            </div>
             <button className="btn btn-primary" onClick={onClose} style={{ marginTop: 24 }}>Close</button>
           </div>
         ) : (
           <>
             {/* Progress */}
             <div className={styles.progress}>
-              {STEPS.map((s, i) => (
+              {['Your Details', 'Insurance Need', 'Confirm'].map((s, i) => (
                 <div key={s} className={`${styles.progressStep} ${i <= step ? styles.progressActive : ''}`}>
                   <div className={styles.progressDot}>{i < step ? '✓' : i + 1}</div>
                   <span className={styles.progressLabel}>{s}</span>
-                  {i < STEPS.length - 1 && <div className={`${styles.progressLine} ${i < step ? styles.progressLineFill : ''}`} />}
+                  {i < 2 && <div className={`${styles.progressLine} ${i < step ? styles.progressLineFill : ''}`} />}
                 </div>
               ))}
             </div>
 
             <div className={styles.body}>
 
-              {/* Step 0 — Personal Details */}
+              {/* Step 0 — Contact */}
               {step === 0 && (
-                <div className={styles.stepContent}>
+                <div>
                   <div className="field">
                     <label>Full Name *</label>
                     <input placeholder="Priya Sharma" value={form.fullName} onChange={e => set('fullName', e.target.value)} />
@@ -140,66 +128,47 @@ export default function QuoteModal({ onClose, product }) {
                 </div>
               )}
 
-              {/* Step 1 — Coverage Details */}
+              {/* Step 1 — Insurance type */}
               {step === 1 && (
-                <div className={styles.stepContent}>
-                  <div className={styles.row2}>
-                    <div className="field">
-                      <label>Your Age *</label>
-                      <input type="number" min={18} max={70} placeholder="30" value={form.age} onChange={e => set('age', e.target.value)} />
-                    </div>
-                    <div className="field">
-                      <label>Gender</label>
-                      <select value={form.gender} onChange={e => set('gender', e.target.value)}>
-                        {GENDERS.map(g => <option key={g.val} value={g.val}>{g.label}</option>)}
-                      </select>
+                <div>
+                  <div className="field">
+                    <label>Insurance Category</label>
+                    <div className={styles.typeGrid}>
+                      {INSURANCE_TYPES.map(t => (
+                        <button
+                          key={t.val}
+                          type="button"
+                          className={`${styles.typeBtn} ${form.insuranceType === t.val ? styles.typeBtnActive : ''}`}
+                          onClick={() => set('insuranceType', t.val)}
+                        >
+                          {t.label}
+                        </button>
+                      ))}
                     </div>
                   </div>
                   <div className="field">
-                    <label>Coverage Amount — {formatCoverage(form.coverageAmountRequested)}</label>
-                    <input
-                      type="range" min={500000} max={10000000} step={500000}
-                      value={form.coverageAmountRequested}
-                      onChange={e => set('coverageAmountRequested', e.target.value)}
-                      style={{ width: '100%', accentColor: 'var(--gold)' }}
-                    />
-                    <div style={{ display:'flex', justifyContent:'space-between', marginTop:4 }}>
-                      <span style={{ fontSize:11, color:'var(--text-muted)' }}>₹5 Lakh</span>
-                      <span style={{ fontSize:11, color:'var(--text-muted)' }}>₹1 Crore</span>
-                    </div>
-                  </div>
-                  <div className={styles.row2}>
-                    <div className="field">
-                      <label>Policy Term (years)</label>
-                      <input type="number" min={5} max={40} value={form.policyTermYears} onChange={e => set('policyTermYears', e.target.value)} />
-                    </div>
-                    <div className="field">
-                      <label>Health Status</label>
-                      <select value={form.healthStatus} onChange={e => set('healthStatus', e.target.value)}>
-                        {HEALTH.map(h => <option key={h.val} value={h.val}>{h.label}</option>)}
-                      </select>
-                    </div>
+                    <label>Your Age</label>
+                    <input type="number" min={18} max={80} placeholder="e.g. 30" value={form.age} onChange={e => set('age', e.target.value)} />
                   </div>
                   <div className="field">
-                    <label>Message (optional)</label>
-                    <textarea rows={3} placeholder="Any specific requirements or questions?" value={form.message} onChange={e => set('message', e.target.value)} style={{ resize:'vertical' }} />
+                    <label>Any specific requirements?</label>
+                    <textarea rows={3} placeholder="Coverage amount, budget, specific plans you're interested in..."
+                      value={form.message} onChange={e => set('message', e.target.value)} style={{ resize: 'vertical' }} />
                   </div>
                 </div>
               )}
 
               {/* Step 2 — Confirm */}
               {step === 2 && (
-                <div className={styles.stepContent}>
+                <div>
                   <div className={styles.summary}>
                     {[
-                      ['Name',      form.fullName],
-                      ['Email',     form.email],
-                      ['Phone',     '+91 ' + form.phone],
-                      ['Age',       form.age + ' years'],
-                      ['Gender',    form.gender],
-                      ['Coverage',  formatCoverage(form.coverageAmountRequested)],
-                      ['Term',      form.policyTermYears + ' years'],
-                      ['Health',    form.healthStatus],
+                      ['Name',               form.fullName],
+                      ['Email',              form.email],
+                      ['Phone',              '+91 ' + form.phone],
+                      ['Request Type',       LEAD_TYPES.find(t => t.val === form.leadType)?.label],
+                      ['Insurance Category', form.insuranceType || 'Not specified'],
+                      ['Age',                form.age ? form.age + ' years' : '—'],
                     ].map(([k, v]) => v && (
                       <div key={k} className={styles.summaryRow}>
                         <span className={styles.summaryKey}>{k}</span>
@@ -208,34 +177,27 @@ export default function QuoteModal({ onClose, product }) {
                     ))}
                   </div>
                   <p className={styles.consentNote}>
-                    By submitting, you consent to Sashwat Insurance contacting you via phone/email. Your data is secure and never sold to third parties.
+                    By submitting, you agree to be contacted by Shashwat Insurance Services. Your information is secure and never shared with third parties.
                   </p>
                 </div>
               )}
 
               {error && <p className={styles.error}>{error}</p>}
 
-              {/* Navigation */}
+              {/* Nav */}
               <div className={styles.nav}>
                 {step > 0 && (
                   <button className="btn btn-outline" onClick={() => setStep(s => s - 1)}>← Back</button>
                 )}
                 {step < 2 ? (
-                  <button
-                    className="btn btn-primary"
-                    style={{ marginLeft: 'auto' }}
+                  <button className="btn btn-primary" style={{ marginLeft: 'auto' }}
                     onClick={() => setStep(s => s + 1)}
-                    disabled={step === 0 ? !validStep0 : !validStep1}
-                  >
-                    Next Step →
+                    disabled={step === 0 ? !validStep0 : false}>
+                    Next →
                   </button>
                 ) : (
-                  <button
-                    className="btn btn-gold"
-                    style={{ marginLeft: 'auto' }}
-                    onClick={handleSubmit}
-                    disabled={loading}
-                  >
+                  <button className="btn btn-gold" style={{ marginLeft: 'auto' }}
+                    onClick={handleSubmit} disabled={loading}>
                     {loading ? 'Submitting…' : 'Submit Request →'}
                   </button>
                 )}
