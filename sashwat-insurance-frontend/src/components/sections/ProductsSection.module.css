@@ -35,3 +35,13 @@
 .cardActions { display: flex; align-items: center; gap: 8px; }
 
 @media (max-width: 960px) { .grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; } }
+
+@media (max-width: 768px) {
+  .section { overflow-x: hidden; }
+  .grid { grid-template-columns: 1fr; gap: 16px; max-width: 100%; }
+  .card { padding: 20px; width: 100%; box-sizing: border-box; min-width: 0; }
+  .partnerTag { font-size: 9px !important; padding: 2px 7px; }
+  .meta { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .cardActions { width: 100%; display: flex; gap: 8px; }
+  .cardActions .btn { flex: 1; justify-content: center; }
+}
